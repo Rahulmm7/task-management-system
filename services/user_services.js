@@ -6,11 +6,11 @@ const jwt = require('jsonwebtoken');
 const client = require('../redis');
 const otp = require("../otp")
 const responseFile = require('../response');
+const schedule = require('node-schedule');
 
 const mailer = require("../email");
 const sms = require("../twillio");
 
-const schedule = require('node-schedule');
 require('dotenv').config()
 const jwthashstring = process.env.JWTSTRING;
 
@@ -20,9 +20,9 @@ exports.user_create = async (req, res) => {
 
     const email = req.body.email;
     let number = req.body.mobile;
-    // let userExit = await User.findOne({ email });
-    // if (userExit)
-    //     return responseFile.errorResponse(res, "User Already Exit", 403);
+    let userExist = await User.findOne({ email });
+    if (userExist)
+        return responseFile.errorResponse(res, "User Already Exist", 403);
 
     //password hashing
     const salt = await bcrypt.genSalt(10);
@@ -60,16 +60,11 @@ exports.user_create = async (req, res) => {
         email, otp, 'EX', 86400
     );
 
-
     //storing otp in redis using  mobile number as keyword for phone number verification
     let redismobile = await client.set(
         number, otp, 'EX', 86400
     );
-    // console.log("token", token)
     return token
-
-
-
 
 };
 
@@ -134,7 +129,6 @@ exports.create_task = async (req, res) => {
     }
 
     const newTask = new Task(task);
-
     newTask.save();
 
     const date = new Date(req.body.reminderTime);
@@ -145,11 +139,9 @@ exports.create_task = async (req, res) => {
     let number = userdetails.mobile;
 
     const job = schedule.scheduleJob(date, function () {
-        //sending mail and getting otp
-
+        //sending reminder to email and sms
         mailer(email, message);
         sms(number, message);
-
     });
     return newTask
 
@@ -165,9 +157,8 @@ exports.create_subtask = async (req, res) => {
         description: req.body.description,
         scheduledAt: req.body.time,
         triggeredAt: req.body.reminderTime,
-
-
     }
+
     const newSubtask = new Subtask(subtask);
     newSubtask.save();
 
@@ -179,23 +170,18 @@ exports.create_subtask = async (req, res) => {
     let number = userdetails.mobile;
 
     const job = schedule.scheduleJob(date, function () {
-        //sending mail and getting otp
-
+        //sending reminder to email and sms
         mailer(email, message);
         sms(number, message);
 
     });
-
-
     return newSubtask
-
-
 
 }
 
 //db querry to update task status
 
-exports.user_taskUpdate = async (req, res) => {
+exports.user_taskUpdate = async (req) => {
     let taskUpdateResult = await Task.update({ taskStatus: req.body.taskStatus }, { where: { taskID: req.body.taskID } });
     if (taskUpdateResult) {
         return true
@@ -243,8 +229,14 @@ exports.subtask_delete = async (param) => {
 //db querry to read all tasks
 
 exports.userGetAllTasks = async (param) => {
-    let tasklist = await Task.findAll({});
-    return tasklist;
+    try {
+        let tasklist = await Task.findAll({});
+        return tasklist;
+
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 
@@ -255,16 +247,13 @@ exports.user_logout = async (req, res) => {
     try {
         client.del(loginToken, function (err, response) {
             if (response == 1) {
-
                 return responseFile.successResponse(res, "user logout...");
             } else {
                 return responseFile.errorResponse(res, "something went wrong !!!", 400)
             }
         })
 
-
-
     } catch (error) {
         return responseFile.errorResponse(res, "server Error!!!", 500);
     }
-}
+};
