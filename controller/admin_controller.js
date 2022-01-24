@@ -16,8 +16,7 @@ exports.login = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
-        return responseFile.errorResponse(res, "invalid credentinals !!!")
-
+        return responseFile.errorResponse(res, "invalid credentinals !!!", 400)
     }
 }
 
@@ -32,7 +31,7 @@ exports.getAllTasks = async (req, res) => {
         }
 
     } catch (error) {
-        return responseFile.errorResponse(res, "currently no data available !!!")
+        return responseFile.errorResponse(res, "currently no data available !!!", 400)
     }
 }
 
@@ -43,7 +42,7 @@ exports.logout = async (req, res) => {
         let response = await user_service.admin_logout(req, res);
 
     } catch (error) {
-        console.log("error", error)
+        console.log("error", error);
 
     }
 }
