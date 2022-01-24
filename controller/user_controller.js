@@ -1,5 +1,3 @@
-
-
 const User = require("../models/usertable")
 const user_service = require('../services/user_services');
 const responseFile = require('../response');
@@ -9,12 +7,12 @@ exports.create = async (req, res) => {
     try {
         let response = await user_service.user_create(req, res);
         if (response) {
-            responseFile.successResponse(res, response, "Created a new user")
+            responseFile.successResponse(res, response, "Created a new user!")
             return
         }
     } catch (error) {
         console.log("error", error);
-        // return responseFile.errorResponse(res, "Invalid username or password !", 400);
+        return responseFile.errorResponse(res, "Invalid username or password !", 400);
 
     }
 }
@@ -32,7 +30,7 @@ exports.login = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
-        return responseFile.errorResponse(res, "invalid credentinals !!!")
+        return responseFile.errorResponse(res, "invalid credentinals !!!", 400)
 
     }
 }
@@ -71,7 +69,7 @@ exports.user_mobileVerify = async (req, res) => {
         client.get(number, async (err, data) => {
             if (err) {
                 console.log("error", err);
-                return responseFile.errorResponse(res, "Invalid number!!!", 401)
+                return responseFile.errorResponse(res, "Cannot connect, try after sometime!!!", 400)
             };
 
             if (data == onetp) {
@@ -98,8 +96,6 @@ exports.task = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
-
-
     }
 }
 
@@ -112,8 +108,6 @@ exports.subtask = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
-        // return responseFile.errorResponse(res, "Invalid username or password !", 400);
-
     }
 }
 
@@ -121,7 +115,7 @@ exports.taskUpdate = async (req, res) => {
     try {
         let response = await user_service.user_taskUpdate(req, res);
         if (response) {
-            responseFile.successResponse(res, response, "task status updated...")
+            responseFile.successResponse(res, response, "task status updated sucessfully !")
             return
 
         } else {
@@ -130,14 +124,15 @@ exports.taskUpdate = async (req, res) => {
     } catch (error) {
         console.log("error", error);
         return responseFile.errorResponse(res, "server error !!!", 400);
-
     }
 }
+
+
 exports.subtaskUpdate = async (req, res) => {
     try {
         let response = await user_service.user_subtaskUpdate(req, res);
         if (response) {
-            responseFile.successResponse(res, response, "subtask status updated...")
+            responseFile.successResponse(res, response, "subtask status updated sucessfully !")
             return
 
         } else {
@@ -154,9 +149,8 @@ exports.taskDelete = async (req, res) => {
 
     try {
         let response = await user_service.task_delete(req.params, res);
-        console.log("response", response);
         if (response) {
-            responseFile.successResponse(res, response, "task deleted")
+            responseFile.successResponse(res, response, "task deleted !")
             return
         }
         else {
@@ -175,9 +169,8 @@ exports.subtaskDelete = async (req, res) => {
 
     try {
         let response = await user_service.subtask_delete(req.params);
-        console.log("response", response);
         if (response) {
-            responseFile.successResponse(res, response, "task deleted")
+            responseFile.successResponse(res, response, "task deleted sucessfully !")
             return
         }
         else {
@@ -206,7 +199,6 @@ exports.getAllTasks = async (req, res) => {
     } catch (error) {
         console.log("error", error);
         return responseFile.errorResponse(res, "Something went wrong", 400);
-
     }
 }
 
