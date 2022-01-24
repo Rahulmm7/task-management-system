@@ -19,9 +19,9 @@ let mail = async (email, message) => {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"rahul" <sadie.friesen36@ethereal.email>',
+        from: '"Task management system" <sadie.friesen36@ethereal.email>',
         to: email,
-        subject: "Email verification",
+        subject: "Important message",
         text: message,
     });
 
