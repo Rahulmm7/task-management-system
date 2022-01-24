@@ -33,7 +33,7 @@ const subTaskTable = db.define('subtask', {
     },
     triggeredAt: {
         type: Sequelize.DATE,
-        // allowNull: false,
+         allowNull: false,
     },
     taskStatus: {
         type: Sequelize.STRING,
