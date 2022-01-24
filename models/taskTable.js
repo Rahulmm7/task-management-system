@@ -22,7 +22,7 @@ const taskTable = db.define('task', {
     },
     scheduledAt: {
         type: Sequelize.DATE,
-        // allowNull: false,
+         allowNull: false,
     },
     triggeredAt: {
         type: Sequelize.DATE,
