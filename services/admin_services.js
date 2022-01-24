@@ -64,10 +64,16 @@ exports.admin_login = async (req, res) => {
 //db querry of admin page to view all tasks
 
 exports.adminGetAllTasks = async (param) => {
-    let tasklist = await Task.findAll({});
-    return tasklist;
-}
 
+    try {
+        let tasklist = await Task.findAll({});
+        return tasklist;
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
 //db querry to admin logout
 
@@ -76,7 +82,6 @@ exports.admin_logout = async (req, res) => {
     try {
         client.del(loginToken, function (err, response) {
             if (response == 1) {
-
                 return responseFile.successResponse(res, "user logout...");
             } else {
                 return responseFile.errorResponse(res, "something went wrong !!!", 400)
