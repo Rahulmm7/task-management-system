@@ -22,14 +22,17 @@ const taskTable = db.define('task', {
     },
     scheduledAt: {
         type: Sequelize.DATE,
-         allowNull: false,
+        allowNull: false,
+    },
+    completedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
     },
     triggeredAt: {
         type: Sequelize.DATE,
     },
     taskStatus: {
-        type: Sequelize.ENUM,
-        values: ["Active", "Completed", "Deleted"],
+        type: Sequelize.ENUM('Active', 'Completed', 'Deleted'),
         defaultValue: 'Active'
     }
 })
