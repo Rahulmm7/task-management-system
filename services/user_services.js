@@ -124,7 +124,8 @@ exports.create_task = async (req, res) => {
         id: req.body.id,
         title: req.body.title,
         description: req.body.description,
-        scheduledAt: req.body.time,
+        scheduledAt: req.body.starttime,
+        completedAt: req.body.endtime,
         triggeredAt: req.body.reminderTime,
     }
 
@@ -132,6 +133,7 @@ exports.create_task = async (req, res) => {
     newTask.save();
 
     const date = new Date(req.body.reminderTime);
+    const endTime = new Date(req.body.endtime);
     let message = `Reminder , ${task.title} will begin shortly`;
 
     let userdetails = await User.findOne({ where: { id: task.id } });
@@ -143,9 +145,14 @@ exports.create_task = async (req, res) => {
         mailer(email, message);
         sms(number, message);
     });
-    return newTask
 
+    const jobdone = await schedule.scheduleJob(endTime, function () {
+        console.log("task completed");
+        let taskUpdateResult = newTask.update({ taskStatus: "Completed" });
+    });
+    return newTask
 }
+
 
 //db querry to create subtask 
 
@@ -155,7 +162,8 @@ exports.create_subtask = async (req, res) => {
         taskID: req.body.taskID,
         title: req.body.title,
         description: req.body.description,
-        scheduledAt: req.body.time,
+        scheduledAt: req.body.starttime,
+        completedAt: req.body.endtime,
         triggeredAt: req.body.reminderTime,
     }
 
@@ -163,6 +171,7 @@ exports.create_subtask = async (req, res) => {
     newSubtask.save();
 
     const date = new Date(req.body.reminderTime);
+    const endTime = new Date(req.body.endtime);
     let message = `Reminder , ${subtask.title} will begin shortly`;
 
     let userdetails = await User.findOne({ where: { id: subtask.id } });
@@ -173,11 +182,15 @@ exports.create_subtask = async (req, res) => {
         //sending reminder to email and sms
         mailer(email, message);
         sms(number, message);
+    });
+
+    const jobdone = await schedule.scheduleJob(endTime, function () {
+        let taskUpdateResult = newSubtask.update({ taskStatus: "Completed" });
 
     });
     return newSubtask
-
 }
+
 
 //db querry to update task status
 
