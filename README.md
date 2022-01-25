@@ -2,6 +2,7 @@
 # Task Management System
 Task management system is an application to create, read, update and delete tasks for users and the application will send 
 reminders to the user prior to the events via email and sms. Database used is MySQL .Implemented using sequelize npm module.
+Twillio sms service is used to send sms.
 
 ## Expected API CALLS
 
