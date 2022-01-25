@@ -31,13 +31,16 @@ const subTaskTable = db.define('subtask', {
         type: Sequelize.DATE,
         allowNull: false,
     },
+    completedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+    },
     triggeredAt: {
         type: Sequelize.DATE,
-         allowNull: false,
+        allowNull: false,
     },
     taskStatus: {
-        type: Sequelize.STRING,
-        enum: ["Active", "Completed", "Deleted"],
+        type: Sequelize.ENUM('Active', 'Completed', 'Deleted'),
         defaultValue: 'Active'
     }
 })
