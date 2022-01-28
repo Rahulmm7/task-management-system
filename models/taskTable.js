@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 const db = require('../config/database');
 const user = require('./usertable');
 
@@ -9,7 +9,7 @@ const taskTable = db.define('task', {
         autoIncrement: true
     },
     id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: { model: 'users', key: 'id' }
     },
@@ -31,7 +31,7 @@ const taskTable = db.define('task', {
     triggeredAt: {
         type: Sequelize.DATE,
     },
-    taskStatus: {
+    status: {
         type: Sequelize.ENUM('Active', 'Completed', 'Deleted'),
         defaultValue: 'Active'
     }
