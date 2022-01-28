@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const responseFile = require("../response") //requiring responsefile for custom response
-require('dotenv').config()
 const jwthashstring = process.env.JWTSTRING;
 
 
