@@ -3,7 +3,7 @@ const db = require("../config/database");
 
 const user = db.define('user', {
     id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         primaryKey: true,
         autoIncrement: true,
 
@@ -36,13 +36,11 @@ const user = db.define('user', {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     },
-    userStatus: {
+    status: {
         type: Sequelize.ENUM('Active', 'Deleted'),
         defaultValue: 'Active'
     }
 }
 );
-
-
 
 module.exports = user;
