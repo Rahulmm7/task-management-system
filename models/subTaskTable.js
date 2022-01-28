@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
 const db = require('../config/database');
 const taskTable = require('./taskTable');
 const User = require('./usertable');
@@ -16,7 +16,7 @@ const subTaskTable = db.define('subtask', {
 
     },
     id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: { model: 'users', key: 'id' }
     },
@@ -39,7 +39,7 @@ const subTaskTable = db.define('subtask', {
         type: Sequelize.DATE,
         allowNull: false,
     },
-    taskStatus: {
+    status: {
         type: Sequelize.ENUM('Active', 'Completed', 'Deleted'),
         defaultValue: 'Active'
     }
