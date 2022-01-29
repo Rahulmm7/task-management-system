@@ -17,7 +17,7 @@ const subTaskTable = db.define('subtask', {
     },
     id: {
         type: Sequelize.UUID,
-        allowNull: false,
+        defaultValue: Sequelize.UUIDV1,
         references: { model: 'users', key: 'id' }
     },
     title: {
