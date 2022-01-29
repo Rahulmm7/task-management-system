@@ -10,6 +10,7 @@ const taskTable = db.define('task', {
     },
     id: {
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV1,
         allowNull: false,
         references: { model: 'users', key: 'id' }
     },
