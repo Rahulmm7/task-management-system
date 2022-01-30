@@ -22,11 +22,8 @@ exports.login = async (req, res) => {
     try {
         let response = await user_service.user_login(req, res);
         if (response) {
-            responseFile.successResponse(res, response)
+            responseFile.successResponse(res, response, "Sucessfull login!")
             return
-        }
-        else {
-            console.log("invalid/no response from Function user_login!!!")
         }
     } catch (error) {
         console.log("error", error);
@@ -96,6 +93,7 @@ exports.task = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
+        return responseFile.errorResponse(res, "Server error!!!", 500)
     }
 }
 
@@ -108,6 +106,7 @@ exports.subtask = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
+        return responseFile.errorResponse(res, "Server error!!!", 500)
     }
 }
 
@@ -123,7 +122,7 @@ exports.taskUpdate = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
-        return responseFile.errorResponse(res, "server error !!!", 400);
+        return responseFile.errorResponse(res, "server error !!!", 500);
     }
 }
 
@@ -140,8 +139,7 @@ exports.subtaskUpdate = async (req, res) => {
         }
     } catch (error) {
         console.log("error", error);
-        return responseFile.errorResponse(res, "server error !!!", 400);
-
+        return responseFile.errorResponse(res, "server error !!!", 500);
     }
 }
 
@@ -201,6 +199,16 @@ exports.getAllTasks = async (req, res) => {
         return responseFile.errorResponse(res, "Something went wrong", 400);
     }
 }
+//user reminder
+exports.reminder = async (req, res) => {
+    try {
+        let response = await user_service.user_reminder(req, res);
+
+    } catch (error) {
+        console.log("error", error);
+        return responseFile.errorResponse(res, "Something went wrong", 400);
+    }
+}
 
 
 //user logout
@@ -211,5 +219,6 @@ exports.logout = async (req, res) => {
 
     } catch (error) {
         console.log("error", error);
+        return responseFile.errorResponse(res, "Server error!!!", 500)
     }
 }
