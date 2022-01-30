@@ -1,7 +1,5 @@
-
 const admin_services = require('../services/admin_services');
 const responseFile = require('../response');
-
 
 
 exports.login = async (req, res) => {
@@ -23,11 +21,11 @@ exports.login = async (req, res) => {
 exports.getAllTasks = async (req, res) => {
     try {
         let response = await admin_services.adminGetAllTasks(req, res);
-        if (response) {
-            return responseFile.successResponse(res, response)
+        if (response.length == 0) {
+            return responseFile.errorResponse(res, "no users in the list", 404)
         }
         else {
-            console.log("invalid/no response from Function adminGetAllTasks!!!")
+            return responseFile.successResponse(res, response, "List of users");
         }
 
     } catch (error) {
@@ -39,13 +37,9 @@ exports.getAllTasks = async (req, res) => {
 
 exports.logout = async (req, res) => {
     try {
-        let response = await user_service.admin_logout(req, res);
+        let response = await admin_services.admin_logout(req, res);
 
     } catch (error) {
-        console.log("error", error);
-
+        return responseFile.errorResponse(res, "Something went wrong!!!", 400);
     }
 }
-
-
-
