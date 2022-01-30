@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const client = require('../redis');
+const client = require('../utils/redis');
 const responseFile = require('../response');
 
 const User = require('../models/usertable');
 const Task = require('../models/taskTable');
 
-require('dotenv').config()
 const jwthashstring = process.env.JWTSTRING;
 
 
@@ -19,10 +18,6 @@ exports.admin_login = async (req, res) => {
 
         if (!user)
             return responseFile.errorResponse(res, "no user found...", 404);
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch)
-            return responseFile.errorResponse(res, "Invalid password...", 403)
 
         if (!user.isAdmin) {
             return responseFile.errorResponse(res, "You are not admin !", 403);
@@ -41,6 +36,10 @@ exports.admin_login = async (req, res) => {
             return responseFile.errorResponse(res, "User unavailable. Your account may be deleted", 403);
         }
 
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch)
+            return responseFile.errorResponse(res, "Invalid password...", 403)
+
         //creating payload 
         const payload = {
             user: { id: user.userID }
@@ -55,7 +54,7 @@ exports.admin_login = async (req, res) => {
         return token
     } catch (error) {
         console.log("error", err)
-        return responseFile.errorResponse(res, "server error", 400)
+        return responseFile.errorResponse(res, "Something went wrong...", 400)
 
     }
 }
@@ -70,9 +69,9 @@ exports.adminGetAllTasks = async (param) => {
         return tasklist;
 
     } catch (error) {
-        console.log(error);
+        responseFile.errorResponse(res, "Server issue", 500)
+        return
     }
-
 }
 
 //db querry to admin logout
