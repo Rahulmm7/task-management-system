@@ -72,6 +72,10 @@ Twillio sms service is used to send sms.
 - End point : /users/mobileVerify 
 - Request type : POST
 
+#### User reminder 
+- This API call is to automatically sent reminders every 5 min if exist
+- - End point : /users/reminder 
+- Request type : POST
   
 
 
