@@ -12,13 +12,13 @@ require('dotenv').config();
 const app = express();
 
 // Database Connection
-const db = require('./config/database.js');
+const db = require('./config/database');
 
 db.authenticate().then(() => {
   console.log('Database connected...');
-}).catch(err => {
-  console.log('First Error: ' + err);
-})
+}).catch((err) => {
+  console.log(`First Error: ${err}`);
+});
 
 app.use(logger('dev'));
 app.use(express.json());
