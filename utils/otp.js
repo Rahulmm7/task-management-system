@@ -1,11 +1,11 @@
 const { totp } = require('otplib');
-const secretString = process.env.OTP_STRING
+
+const secretString = process.env.OTP_STRING;
 
 function main() {
-    const secret = secretString
+    const secret = secretString;
     const otp = totp.generate(secret);
-    return otp
+    return otp;
 }
 
-module.exports = main()
-
+module.exports = main();
