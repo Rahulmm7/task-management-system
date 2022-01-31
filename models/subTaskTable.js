@@ -7,18 +7,18 @@ const subTaskTable = db.define('subtask', {
     subTaskID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     taskID: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'tasks', key: 'taskID' }
+        references: { model: 'tasks', key: 'taskID' },
 
     },
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV1,
-        references: { model: 'users', key: 'id' }
+        references: { model: 'users', key: 'id' },
     },
     title: {
         type: Sequelize.STRING,
@@ -41,12 +41,11 @@ const subTaskTable = db.define('subtask', {
     },
     status: {
         type: Sequelize.ENUM('Active', 'Completed', 'Deleted'),
-        defaultValue: 'Active'
-    }
-})
+        defaultValue: 'Active',
+    },
+});
 
 taskTable.hasMany(subTaskTable);
-User.hasMany(subTaskTable)
-
+User.hasMany(subTaskTable);
 
 module.exports = subTaskTable;
