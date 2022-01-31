@@ -1,14 +1,14 @@
-const redis = require("redis");
+const redis = require('redis');
 
 function main() {
-    const redisPort = 6379
-    client = redis.createClient(redisPort);
+    const redisPort = 6379;
+    const client = redis.createClient(redisPort);
 
-    //log error to the console if any occurs
-    client.on("error", (err) => {
-        console.log("redis error", err);
+    // log error to the console if any occurs
+    client.on('error', (err) => {
+        console.log('redis error', err);
     });
-    return client
+    return client;
 }
 
 module.exports = main();
