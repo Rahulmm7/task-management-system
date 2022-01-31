@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config()
+require('dotenv').config();
 
 const db = new Sequelize({
     host: process.env.DB_HOST,
@@ -13,11 +13,11 @@ const db = new Sequelize({
         max: 5,
         min: 0,
         acquire: 30000,
-        idle: 10000
-    }
+        idle: 10000,
+    },
 });
 
-//to create table if not exit
+// to create table if not exit
 // db.sync()
 
 module.exports = db;
