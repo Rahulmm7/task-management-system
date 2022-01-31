@@ -3,7 +3,6 @@ const { check, validationResult } = require('express-validator');
 exports.validateUserCreate = [
     check('username')
         .trim()
-        .escape()
         .not()
         .isEmpty()
         .withMessage('User name can not be empty!')
@@ -28,8 +27,9 @@ exports.validateUserCreate = [
 
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
+        }
         next();
     },
 ];
@@ -53,8 +53,9 @@ exports.validateUserLogin = [
 
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
+        }
         next();
     },
 ];
@@ -71,16 +72,12 @@ exports.validateCreateTask = [
         .not()
         .isEmpty()
         .withMessage('title can not be empty!'),
-    check('scheduledAt')
-        .not()
-        .isEmpty()
-        .withMessage('scheduled time can not be empty!'),
-
 
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
+        }
         next();
     },
 ];
@@ -103,24 +100,17 @@ exports.validateCreatesubTask = [
         .not()
         .isEmpty()
         .withMessage('title can not be empty!'),
-    check('scheduledAt')
-        .not()
-        .isEmpty()
-        .withMessage('scheduled time can not be empty!'),
-
-
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
+        }
         next();
     },
 ];
 
-
-
 exports.validateTaskUpdate = [
-    check('taskID',)
+    check('taskID')
         .trim()
         .escape()
         .not()
@@ -129,14 +119,15 @@ exports.validateTaskUpdate = [
         .bail(),
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
+        }
         next();
     },
 ];
 
 exports.validatesubtaskUpdate = [
-    check('subTaskID',)
+    check('subTaskID')
         .trim()
         .escape()
         .not()
@@ -145,8 +136,9 @@ exports.validatesubtaskUpdate = [
         .bail(),
     (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
+        }
         next();
     },
 ];
