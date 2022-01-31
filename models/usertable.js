@@ -1,11 +1,11 @@
-const Sequelize = require("sequelize");
-const db = require("../config/database");
+const Sequelize = require('sequelize');
+const db = require('../config/database');
 
 const user = db.define('user', {
     id: {
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV1
+        defaultValue: Sequelize.UUIDV1,
 
     },
     username: {
@@ -14,33 +14,32 @@ const user = db.define('user', {
     },
     password: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: false,
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
     mobile: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: false,
     },
     isAdmin: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     isEmailVerified: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     isMobileVerified: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
     },
     status: {
         type: Sequelize.ENUM('Active', 'Deleted'),
-        defaultValue: 'Active'
-    }
-}
-);
+        defaultValue: 'Active',
+    },
+});
 
 module.exports = user;
