@@ -6,13 +6,13 @@ const taskTable = db.define('task', {
     taskID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
     },
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV1,
         allowNull: false,
-        references: { model: 'users', key: 'id' }
+        references: { model: 'users', key: 'id' },
     },
     title: {
         type: Sequelize.STRING,
@@ -34,10 +34,10 @@ const taskTable = db.define('task', {
     },
     status: {
         type: Sequelize.ENUM('Active', 'Completed', 'Deleted'),
-        defaultValue: 'Active'
-    }
-})
+        defaultValue: 'Active',
+    },
+});
 
-user.hasMany(taskTable)
+user.hasMany(taskTable);
 
 module.exports = taskTable;
