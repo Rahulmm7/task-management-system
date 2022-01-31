@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-const { login, getAllTasks, logout } = require("../controller/admin_controller");
+const router = express.Router();
+
+const { login, getAllTasks, logout } = require('../controller/admin_controller');
 const auth = require('../middleware/authenication');
 const { validateUserLogin } = require('../middleware/validator');
 
