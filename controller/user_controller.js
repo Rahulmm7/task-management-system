@@ -173,15 +173,6 @@ exports.getAllTasks = async (req, res) => {
         return responseFile.errorResponse(res, 'Something went wrong', 400);
     }
 };
-// user reminder
-exports.reminder = async (req, res) => {
-    try {
-        const response = await user_service.user_reminder(req, res);
-    } catch (error) {
-        console.log('error', error);
-        return responseFile.errorResponse(res, 'Something went wrong', 400);
-    }
-};
 
 // user logout
 
