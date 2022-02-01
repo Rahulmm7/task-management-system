@@ -20,6 +20,9 @@ db.authenticate().then(() => {
   console.log(`First Error: ${err}`);
 });
 
+// requiring reminder which will send reminder in every 5 min if task exist
+const reminder = require('./utils/reminder');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
