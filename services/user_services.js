@@ -111,9 +111,8 @@ exports.create_task = async (req, res) => {
 
     const newTask = new Task(task);
     newTask.save();
-
+    // Now reminder is a seperate module in utils which automatically check all tasks in 5 mins
     // const date = new Date(req.body.reminderTime);
-    const endTime = new Date(req.body.endtime);
     // let message = `Reminder , ${task.title} will begin shortly`;
 
     // let userdetails = await User.findOne({ where: { id: task.id } });
@@ -125,7 +124,7 @@ exports.create_task = async (req, res) => {
     //     await mailer(email, message);
     //     await sms(number, message);
     // });
-
+    const endTime = new Date(req.body.endtime);
     const jobdone = schedule.scheduleJob(endTime, async () => {
         const taskUpdateResult = await newTask.update({ status: 'Completed' });
     });
@@ -220,36 +219,6 @@ exports.userGetAllTasks = async (param, res) => {
     try {
         const tasklist = await Task.findAll({});
         return tasklist;
-    } catch (error) {
-        console.log(error);
-        return responseFile.errorResponse(res, 'server error', 500);
-    }
-};
-// db querry to check reminder every 10 min
-
-exports.user_reminder = async (req, res) => {
-    try {
-        const job = schedule.scheduleJob('*/5 * * * *', async () => {
-            const date = new Date();
-            const tasks = await Task.findAll({ where: { status: 'Active' } });
-            if (tasks.length > 0) {
-                for (const index in tasks) {
-                    const diff = Math.abs(date - (tasks[index].scheduledAt));
-                    const userdetails = await User.findOne({ where: { id: tasks[index].id } });
-                    const { email } = userdetails;
-                    const number = userdetails.mobile;
-                    const { title } = tasks[index];
-                    const message = `Reminder, ${title} will begin in 5 minutes `;
-
-                    if (diff <= 300000) {
-                        // sending reminder to email and sms
-                        mailer(email, message);
-                        sms(number, message);
-                    }
-                }
-            }
-        });
-        return responseFile.successResponse(res, 'server is running..');
     } catch (error) {
         console.log(error);
         return responseFile.errorResponse(res, 'server error', 500);
